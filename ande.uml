@@ -1,0 +1,91 @@
+@startuml
+
+actor WalkinPatient
+entity UCC #red
+actor AmbulancePatient
+actor BlueAmbulancePatient as blue #blue
+entity ResusRoom #red
+database londonAmbulance as ldb
+database ceMisSymphony as db
+actor TriageNurse
+
+blue -[#blue]> ResusRoom : Rooms 4-1
+ResusRoom -> ResusRoom : emergency treatment
+blue -[#blue]> ldb : post Resus
+ldb -[#blue]> ldb : overridepin()
+ldb -[#blue]> ldb : getHandoverTimeByPin()
+blue -[#blue]> db : post Handover
+db -> db : bookin()
+blue -[#blue]> blue : AmbulanceExit()
+db -> TriageNurse : refer to Majors
+activate TriageNurse
+
+note over TriageNurse
+ Treat and admit to ward 
+ or discharge
+end note
+
+TriageNurse -> db
+deactivate TriageNurse
+
+db -> db : wardHandover()
+db -> db : discharge()
+
+AmbulancePatient -> TriageNurse : to Triage Nurse
+
+activate TriageNurse
+
+note over TriageNurse
+ Bookin, treat and admit to ward 
+ or discharge
+end note
+
+
+db -> db : bookinWithMerge()
+AmbulancePatient -> ldb : post Triage
+ldb -> ldb : getHandoverTimeByPin()
+AmbulancePatient -> AmbulancePatient : AmbulanceExit()
+
+TriageNurse -> db
+
+deactivate TriageNurse
+db -> db : wardHandover()
+db -> db : discharge()
+
+WalkinPatient -> UCC : refered to UCC
+UCC -> UCC : diagnose()
+UCC -> db : refered to A&E
+db -> db : bookin()
+db -> TriageNurse : refer to Majors
+activate TriageNurse
+
+note over TriageNurse
+ Treat and admit to ward 
+ or discharge
+end note
+
+
+TriageNurse -> db
+deactivate TriageNurse
+
+db -> db : wardHandover()
+db -> db : discharge()
+
+WalkinPatient -> db : emergency A&E
+db -> db : bookin()
+db -> TriageNurse : refer to Majors
+
+activate TriageNurse
+
+note over TriageNurse
+ Treat and admit to ward 
+ or discharge
+end note
+
+TriageNurse -> db
+deactivate TriageNurse
+
+db -> db : wardHandover()
+db -> db : discharge()
+
+@enduml
