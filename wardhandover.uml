@@ -1,0 +1,81 @@
+@startuml
+
+skinparam ActorPadding 20
+skinparam ParticipantPadding 20
+skinparam BoxPadding 150
+
+box "receptionist      "
+
+actor AEreceptionst as ae
+endbox 
+
+box "datatbase         "
+database ceMis as db
+endbox
+
+box "database interface"
+database Symphoney as sy
+end box
+
+ae -> db
+|||
+note left of db
+ Select option 5 "IPS".
+end note
+db -> db
+||||
+note left of db
+ Select option 2 "Admit".
+end note
+db -> db
+||||
+note left of db
+ <tab> to "Admieth", "Admeith" : 21
+end note
+db -> db
+||||
+note left of db
+ set Hospital number
+end note
+db -> db
+||||
+note left of db
+ F1* to Patient admission screen
+end note
+db -> db
+||||
+note left of db
+<tab> to "SRC", "SRC" : 10
+<tab> to "FROM", "FROM" : "BECM" Dr Beckett.
+end note
+db -> db
+||||
+note left of db
+<tab> to "CONS", "CONS" : [Select consultant] F3 F1
+end note
+db -> db
+||||
+note left of db
+<tab> to "WARD", "WARD" : [Select Ward] F3 F1
+end note
+note left of db
+||||
+F1 to Exit
+end note
+db -> ae : exit()
+||||
+||||
+ae -> sy
+note right of sy
+Search for Patient
+end note
+sy -> sy
+||||
+note right of sy
+Print ward handover sheet
+Print Medics handover sheet if required
+end note
+
+sy -> ae : exit()
+||||
+@enduml

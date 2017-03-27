@@ -6,7 +6,7 @@ actor AmbulancePatient
 actor BlueAmbulancePatient as blue #blue
 entity ResusRoom #red
 database londonAmbulance as ldb
-database ceMisSymphony as db
+database Symphony as db
 actor TriageNurse
 
 blue -[#blue]> ResusRoom : Rooms 4-1
